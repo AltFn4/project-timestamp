@@ -18,13 +18,30 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/api", function (req, res) {
+  var unix = Date.now();
+  return res.json({
+    unix: unix,
+    utc: new Date(unix).toUTCString(),
+  });
+})
+
 
 app.get("/api/:dateStr", function (req, res) {
-  var date = Date.parse(req.params.dateStr);
-  res.json({
-    unix: date,
-    utc: new Date(date).toUTCString(),
-  });
+  var dateStr = req.params.dateStr;
+  var unix = Date.parse(dateStr);
+  var utc = new Date(unix).toUTCString();
+
+  if (isNaN(unix)) {
+    res.json({
+      error: utc
+    });
+  } else {
+    res.json({
+      unix: unix,
+      utc: utc,
+    });
+  }
 });
 
 
