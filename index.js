@@ -19,9 +19,12 @@ app.get("/", function (req, res) {
 });
 
 
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.get("/api/:dateStr", function (req, res) {
+  var date = Date.parse(req.params.dateStr);
+  res.json({
+    unix: date,
+    utc: new Date(date).toUTCString(),
+  });
 });
 
 
