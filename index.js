@@ -30,6 +30,11 @@ app.get("/api", function (req, res) {
 app.get("/api/:dateStr", function (req, res) {
   var dateStr = req.params.dateStr;
   var unix = Date.parse(dateStr);
+
+  if (isNaN(unix)) {
+    unix = Number.parseInt(dateStr);
+  }
+
   var utc = new Date(unix).toUTCString();
 
   if (isNaN(unix)) {
